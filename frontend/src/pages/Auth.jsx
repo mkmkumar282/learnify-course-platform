@@ -12,10 +12,12 @@ export default function Auth() {
   });
   
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
     
     const roleString = isAdmin ? 'admin' : 'user';
     const actionString = isLogin ? 'signin' : 'signup';
@@ -31,7 +33,7 @@ export default function Auth() {
         } else {
           // If signup was successful but no token (just msg), auto flip to login!
           setIsLogin(true);
-          setError('Signup successful! Please log in.');
+          setSuccessMsg('Signup successful! Please log in.');
         }
       }
     } catch (err) {
@@ -50,6 +52,12 @@ export default function Auth() {
         {error && (
           <div className="mb-4" style={{ padding: '0.8rem', background: 'rgba(255,0,0,0.1)', color: 'red', borderRadius: '8px', fontSize: '0.9rem' }}>
             {error}
+          </div>
+        )}
+
+        {successMsg && (
+          <div className="mb-4" style={{ padding: '0.8rem', background: 'rgba(50,205,50,0.1)', color: '#228B22', borderRadius: '8px', fontSize: '0.9rem', fontWeight: 600 }}>
+            {successMsg}
           </div>
         )}
 
@@ -79,7 +87,11 @@ export default function Auth() {
           {isLogin ? "Don't have an account? " : "Already have an account? "}
           <span 
             style={{ color: 'var(--accent-blue)', cursor: 'pointer', fontWeight: 600 }}
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={() => {
+              setIsLogin(!isLogin);
+              setError('');
+              setSuccessMsg('');
+            }}
           >
             {isLogin ? 'Sign up' : 'Sign in'}
           </span>
