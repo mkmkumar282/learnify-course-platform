@@ -25,16 +25,14 @@ export default function Auth() {
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/${roleString}/${actionString}`, formData);
       
-      if (res.data.token || res.data.message) {
-        if (res.data.token) {
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('role', roleString);
-          navigate('/dashboard');
-        } else {
-          // If signup was successful but no token (just msg), auto flip to login!
-          setIsLogin(true);
-          setSuccessMsg('Signup successful! Please log in.');
-        }
+      if (actionString === 'signin') {
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('role', roleString);
+        navigate('/dashboard');
+      } else {
+        // Automatically flip to login panel and show green success
+        setIsLogin(true);
+        setSuccessMsg('Signup successful! Please log in.');
       }
     } catch (err) {
       setError(err.response?.data?.message || err.response?.data?.error || 'Authentication failed');
