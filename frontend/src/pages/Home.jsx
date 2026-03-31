@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/course/preview');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/course/preview`);
         setCourses(res.data.courses);
       } catch (err) {
         console.error("Error fetching courses", err);

@@ -11,7 +11,7 @@ export default function Resources() {
 
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/resource');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/resource`);
       setBlogs(res.data.blogs || []);
     } catch (err) {
       console.error("Failed to fetch blogs", err);
@@ -26,7 +26,7 @@ export default function Resources() {
     e.preventDefault();
     try {
       const endpoint = role === 'admin' ? '/resource/admin' : '/resource/user';
-      await axios.post(`http://localhost:3000${endpoint}`, newBlog, {
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${endpoint}`, newBlog, {
         headers: { token }
       });
       setIsCreating(false);

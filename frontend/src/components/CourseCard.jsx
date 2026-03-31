@@ -15,7 +15,7 @@ export default function CourseCard({ course, isPurchased = false, onEdit }) {
 
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:3000/course/purchase', {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/course/purchase`, {
         courseId: course._id
       }, {
         headers: { token }

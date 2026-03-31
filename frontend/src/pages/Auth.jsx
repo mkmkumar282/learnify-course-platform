@@ -21,7 +21,7 @@ export default function Auth() {
     const actionString = isLogin ? 'signin' : 'signup';
     
     try {
-      const res = await axios.post(`http://localhost:3000/${roleString}/${actionString}`, formData);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/${roleString}/${actionString}`, formData);
       
       if (res.data.token || res.data.message) {
         if (res.data.token) {

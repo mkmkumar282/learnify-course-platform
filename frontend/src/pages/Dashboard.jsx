@@ -20,13 +20,13 @@ export default function Dashboard() {
   const fetchDashboardData = async () => {
     try {
       if (role === 'admin') {
-        const res = await axios.post('http://localhost:3000/admin/course/bulk', {}, {
+        const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/admin/course/bulk`, {}, {
           headers: { token }
         });
         setCourses(res.data.courses || []);
       } else {
-        const res = await axios.get('http://localhost:3000/user/purchases', { headers: { token } });
-        const allCourses = await axios.get('http://localhost:3000/course/preview');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/purchases`, { headers: { token } });
+        const allCourses = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/course/preview`);
         const purchaseRecords = res.data.purchases || [];
         const purchasedIds = purchaseRecords.map(p => p.courseId);
         const myCourses = allCourses.data.courses.filter(c => purchasedIds.includes(c._id));
@@ -48,7 +48,7 @@ export default function Dashboard() {
   const handleCreateCourse = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/admin/course', newCourse, {
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/admin/course`, newCourse, {
         headers: { token }
       });
       setIsCreating(false);
@@ -63,7 +63,7 @@ export default function Dashboard() {
   const handleUpdateCourse = async (e) => {
     e.preventDefault();
     try {
-      await axios.put('http://localhost:3000/admin/course', {
+      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/admin/course`, {
         courseId: editingCourse._id,
         title: editingCourse.title,
         description: editingCourse.description,
